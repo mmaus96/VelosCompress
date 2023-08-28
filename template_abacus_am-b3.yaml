@@ -1,0 +1,133 @@
+theory:
+  pk_likelihood_gc_emu_am_b3.Taylor_pk_theory_zs:
+      zfids:
+      - 0.8
+      # basedir: /global/cscratch1/sd/mmaus/new_template/Cobaya_template/emulator/full_shape/abacus_fid_ini/emu/
+      basedir: /pscratch/sd/m/mmaus/ShapeFit/emulator/abacus_fid/emu/
+      # s8_filename: boss_s8.json
+      pk_filenames:
+      - boss_z_0.80_pkells.json
+      stop_at_error: True
+      
+likelihood:
+  pk_boss_likelihoods_emu_am_b3.abacus_mock_LRG:
+    basedir: /pscratch/sd/m/mmaus/ShapeFit/
+    linear_param_dict_fn: rsd_likelihood/abacus_linear_params.yaml
+    fs_kmins:
+    - 0.02
+    fs_mmaxs:
+    - 0.20
+    fs_qmaxs:
+    - 0.20
+    sig8: 0.8076
+    # ideal: True
+    kmax_spline:
+    - 0.5
+    include_priors: True
+    optimize: True
+    stop_at_error: True
+    
+params:
+  f_sig8:
+    prior:
+      min: 0.0
+      max: 2.0
+    ref:
+      dist: norm
+      loc:  0.466
+      scale: 0.05
+    latex: f\sigma_8
+  apar:
+    prior:
+      min: 0.5
+      max: 1.5
+    ref:
+      dist: norm
+      loc: 1.0
+      scale: 0.03
+    latex: \alpha_{\parallel}
+  aperp:
+    prior:
+      min: 0.5
+      max: 1.5
+    ref:
+      dist: norm
+      loc: 1.0
+      scale: 0.03
+    latex: \alpha_{\perp}
+  m:
+    value: 0.0
+    # prior:
+    #   min: -3.0
+    #   max: 3.0
+    # ref:
+    #   dist: norm
+    #   loc: 0.0
+    #   scale: 0.05
+    # latex: m
+    
+  # LRG
+  bsig8_LRG:
+    prior:
+      dist: uniform
+      min:  0.5
+      max:  3.0
+    ref:
+      dist:  norm
+      loc:   1.7239232
+      scale: 0.05
+    latex: (1+b_1)\sigma_8
+  b2_LRG:
+    prior:
+      dist:  norm
+      loc:   0.0
+      scale: 10.
+    ref:
+      dist:  norm
+      loc:   -2.1724898
+      scale: 0.1
+    latex: b_2
+  bs_LRG:
+    prior:
+      dist:  norm
+      loc:   0.0
+      scale: 5.0
+    ref:
+      dist:  norm
+      loc:   1.0970124
+      scale: 0.1
+    latex: b_s
+  b3_LRG:
+    prior:
+      dist:  norm
+      loc:   0.0
+      scale: 0.5
+    ref:
+      dist:  norm
+      loc:   1.0970124
+      scale: 0.1
+    latex: b_3
+
+
+
+sampler:
+  mcmc:
+    covmat: auto
+#    covmat: /global/cscratch1/sd/sfschen/boss_analysis_joint/covini/bossz3_pk.covini
+    learn_proposal: True
+    learn_proposal_Rminus1_max: 30.0
+    output_every: 60s
+    measure_speeds: false
+    max_tries: 500
+    drag: False
+    oversample_power: 0.4
+    proposal_scale: 1.5
+    Rminus1_stop: 0.01
+    blocking:
+      - [ 1, [f_sig8,apar,aperp]]
+      - [ 2, [bsig8_LRG,b2_LRG,bs_LRG,b3_LRG]]
+output: chains/abacus_mocks/LRG/KP5_tests/standard_temp/b3/pk
+debug: True
+debug_file: chains/abacus_mocks/LRG/KP5_tests/standard_temp/b3/pk
+timing: True
+stop_on_error: True

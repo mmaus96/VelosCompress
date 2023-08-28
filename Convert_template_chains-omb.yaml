@@ -1,0 +1,100 @@
+theory:
+  convert_shapefit_2_LCDM_amp.Compute_theory_pars:
+      zfid: 0.8
+      shapefit: False
+      # basedir: /global/cscratch1/sd/mmaus/new_template/Cobaya_template/emulator/full_shape/abacus_fid_ini/emu/
+      # basedir: /global/cscratch1/sd/mmaus/new_template/Cobaya_template/cosmo_chains/z3/Joint/
+      # s8_filename: boss_s8.json
+      # pk_filenames:
+      # - boss_z_0.80_pkells.json
+      stop_at_error: False
+      
+likelihood:
+  convert_shapefit_2_LCDM_amp.shapefit_2_LCDM:
+    basedir: /pscratch/sd/m/mmaus/ShapeFit/chains/abacus_mocks/LRG/KP5_tests/standard_temp/orig/
+    zfid: 0.8
+    shapefit: False
+    unpack_chains: True
+    chains_fn: pk
+    ext_prior: False
+    prior_cov_fn: none
+    prior_means: None
+    
+    stop_at_error: False
+    
+params:
+  H0:
+    prior:
+      # dist: norm
+      # loc: 67.36
+      # scale: 0.5
+      min: 55.0
+      max: 79.0
+    ref: 
+      dist: norm
+      loc:  67.36
+      scale: 0.5
+    latex: H_0
+  omega_b:
+    prior:
+      dist:  norm
+      loc: 0.02237
+      scale: 0.00037
+      # min: 0.022
+      # max: 0.02274
+    ref: 
+      dist: norm
+      loc: 0.02237
+      scale: 0.0001
+    latex: \Omega_\mathrm{b}h^2
+  omega_cdm:
+    prior:
+      min: 0.08
+      max: 0.16
+      # dist: norm
+      # loc: 0.12
+      # scale: 0.001
+    ref: 
+      dist: norm
+      loc: 0.12
+      scale: 0.005
+    latex: \Omega_\mathrm{cdm}h^2
+  logA:
+    prior:
+      dist: uniform
+      min:  2.03
+      max:  4.03
+      # min:  1.61
+      # max:  3.91
+    ref: 
+      dist:  norm
+      loc:   3.03
+      scale: 0.005
+    latex: \log(10^{10} A_\mathrm{s})
+  # sigma8:
+  #   latex: \sigma_8
+  omegam:
+    latex: \Omega_\mathrm{m}
+
+
+sampler:
+  mcmc:
+    covmat: auto
+#    covmat: /global/cscratch1/sd/sfschen/boss_analysis_joint/covini/bossz3_pk.covini
+    learn_proposal: True
+    learn_proposal_Rminus1_max: 30.0
+    output_every: 60s
+    measure_speeds: True
+    max_tries: 500
+    drag: False
+    oversample_power: 0.4
+    proposal_scale: 1.5 #1.5
+    Rminus1_stop: 0.01
+    # blocking:
+      # - [ 1, [logA,omegam,H0]]
+      
+output:  /pscratch/sd/m/mmaus/ShapeFit/chains/abacus_mocks/LRG/KP5_tests/standard_temp/orig/lcdm_convert_amp/lcdm
+debug: True
+debug_file: /pscratch/sd/m/mmaus/ShapeFit/chains/abacus_mocks/LRG/KP5_tests/standard_temp/orig/lcdm_convert_amp/lcdm
+timing: True
+stop_on_error: False
